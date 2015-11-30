@@ -44,15 +44,6 @@ func RoutesAPI() http.Handler {
 
 	r.HandleFunc("/routes", func(w http.ResponseWriter, req *http.Request) {
 		route := new(router.Route)
-		if err := unmarshal(req.Body, route); err != nil {
-			http.Error(w, "Bad request: "+err.Error(), http.StatusBadRequest)
-			return
-		}
-		err := routes.Add(route)
-		if err != nil {
-			http.Error(w, "Bad route: "+err.Error(), http.StatusBadRequest)
-			return
-		}
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 		w.Write(append(marshal(route), '\n'))
